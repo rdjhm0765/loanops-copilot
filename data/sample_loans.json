@@ -1,0 +1,20 @@
+[
+    {
+        "borrower": "maddy",
+        "amount": "1000",
+        "risk_score": 24,
+        "risk_label": "Low"
+    },
+    {
+        "borrower": "harry",
+        "amount": "10000",
+        "risk_score": 48,
+        "risk_label": "Medium"
+    },
+    {
+        "borrower": "maddy",
+        "amount": "30987",
+        "risk_score": 59,
+        "risk_label": "Medium"
+    }
+]

@@ -1,0 +1,85 @@
+/* Global */
+QWidget {
+    font-family: Segoe UI;
+    font-size: 13px;
+    background-color: #f5f7fa;
+    color: #2c3e50;
+}
+
+/* Titles */
+QLabel#title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1f3c88;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: #1f3c88;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
+
+QPushButton:hover {
+    background-color: #162e66;
+}
+
+/* Input fields */
+QLineEdit {
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccd6dd;
+}
+
+/* Risk colors */
+QLabel[risk="low"] {
+    color: green;
+    font-weight: bold;
+}
+
+QLabel[risk="medium"] {
+    color: orange;
+    font-weight: bold;
+}
+
+QLabel[risk="high"] {
+    color: red;
+    font-weight: bold;
+}
+#pageTitle {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 15px;
+}
+
+#metricCard {
+    background-color: #1f2933;
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 180px;
+}
+
+#cardTitle {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+#cardValue {
+    font-size: 28px;
+    font-weight: bold;
+    color: #22c55e;
+}
+
+#highlightText {
+    font-size: 18px;
+    margin: 20px;
+}
+
+#insightBox {
+    background-color: #111827;
+    border-left: 5px solid #22c55e;
+    padding: 15px;
+    margin: 15px;
+    font-size: 15px;
+}
