@@ -22,5 +22,13 @@
         "amount": "20000",
         "risk_score": 38,
         "risk_label": "Medium"
+    },
+    {
+        "borrower": "XYZ",
+        "amount": "500000",
+        "pan": "ABCDE1234F",
+        "annual_income": "1200000",
+        "risk_score": 56,
+        "risk_label": "Medium"
     }
 ]

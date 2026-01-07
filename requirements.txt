@@ -9,3 +9,7 @@ motor
 python-jose 
 passlib[bcrypt] 
 python-dotenv
+google-cloud-vision
+Pillow
+pdfplumber
+pdf2image
