@@ -1,5 +1,6 @@
+# modules/origination.py
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
-from utils.data_handler import load_loans, save_loans
+from utils.data_handler import save_loan
 from utils.ai_model import risk_score, risk_label
 
 class Origination(QWidget):
@@ -29,20 +30,33 @@ class Origination(QWidget):
         self.setLayout(layout)
 
     def submit(self):
-        score = risk_score(self.amount.text())
+        borrower_name = self.name.text().strip()
+        try:
+            loan_amount = float(self.amount.text().strip())
+        except ValueError:
+            QMessageBox.warning(self, "Error", "Loan amount must be a number")
+            return
+
+        score = risk_score(loan_amount)
         label = risk_label(score)
 
-        loans = load_loans()
-        loans.append({
-            "borrower": self.name.text(),
-            "amount": self.amount.text(),
+        # Create a single loan record
+        loan = {
+            "borrower": borrower_name,
+            "amount": loan_amount,
             "risk_score": score,
             "risk_label": label
-        })
-        save_loans(loans)
+        }
+
+        # Save directly to MongoDB
+        save_loan(loan)
 
         QMessageBox.information(
             self,
             "AI Risk Assessment",
-            f"Risk Level: {label} ({score})"
+            f"Loan submitted!\nRisk Level: {label} ({score})"
         )
+
+        # Clear input fields
+        self.name.clear()
+        self.amount.clear()

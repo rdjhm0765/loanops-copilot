@@ -9,3 +9,4 @@ motor
 python-jose 
 passlib[bcrypt] 
 python-dotenv
+pymongo
