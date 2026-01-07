@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QHBoxLayout,
-    QFrame
+    QFrame,
+    QMessageBox
 )
 from PyQt5.QtCore import Qt
 
@@ -12,6 +13,7 @@ from modules.origination import Origination
 from modules.monitoring import Monitoring
 from modules.analytics import Analytics
 from modules.executive_summary import ExecutiveSummary
+from utils.session import SessionManager
 
 
 class Dashboard(QWidget):
@@ -19,17 +21,37 @@ class Dashboard(QWidget):
         super().__init__()
         self.setWindowTitle("LoanOps Copilot")
         self.setGeometry(200, 100, 1000, 600)
-
+        
+        self.session = SessionManager()
         self.init_ui()
 
     def init_ui(self):
         main_layout = QVBoxLayout(self)
 
-        # ---------- TITLE ----------
+        # ---------- HEADER ----------
+        header_layout = QHBoxLayout()
+        
+        # Title
         title = QLabel("LoanOps Copilot – Operations Dashboard")
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignLeft)
         title.setObjectName("pageTitle")
-        main_layout.addWidget(title)
+        header_layout.addWidget(title)
+        
+        header_layout.addStretch()
+        
+        # User info and logout
+        current_user = self.session.get_current_user()
+        if current_user:
+            user_label = QLabel(f"👤 {current_user}")
+            user_label.setObjectName("userLabel")
+            header_layout.addWidget(user_label)
+            
+            logout_btn = QPushButton("Logout")
+            logout_btn.setObjectName("logoutButton")
+            logout_btn.clicked.connect(self.logout)
+            header_layout.addWidget(logout_btn)
+        
+        main_layout.addLayout(header_layout)
 
         subtitle = QLabel(
             "Reimagining loan operations with predictive intelligence"
@@ -125,3 +147,22 @@ class Dashboard(QWidget):
     def open_executive_summary(self):
         self.e = ExecutiveSummary()
         self.e.show()
+    
+    def logout(self):
+        reply = QMessageBox.question(
+            self,
+            "Logout",
+            "Are you sure you want to logout?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        
+        if reply == QMessageBox.Yes:
+            self.session.logout()
+            QMessageBox.information(self, "Logged Out", "You have been logged out successfully")
+            self.close()
+            
+            # Restart app to show login screen
+            import sys
+            from PyQt5.QtWidgets import QApplication
+            QApplication.quit()
+            sys.exit(0)

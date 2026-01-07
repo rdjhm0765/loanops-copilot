@@ -13,23 +13,68 @@ QLabel#title {
     color: #1f3c88;
 }
 
+QLabel#pageTitle {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 15px;
+    color: #1f3c88;
+}
+
+QLabel#subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
 /* Buttons */
 QPushButton {
     background-color: #1f3c88;
     color: white;
     padding: 8px 14px;
     border-radius: 6px;
+    font-weight: 500;
 }
 
 QPushButton:hover {
     background-color: #162e66;
 }
 
+QPushButton:pressed {
+    background-color: #0f1d44;
+}
+
+QPushButton#linkButton {
+    background-color: transparent;
+    color: #1f3c88;
+    text-decoration: underline;
+    border: none;
+    padding: 4px 8px;
+}
+
+QPushButton#linkButton:hover {
+    color: #162e66;
+}
+
+QPushButton#logoutButton {
+    background-color: #dc3545;
+    padding: 6px 12px;
+}
+
+QPushButton#logoutButton:hover {
+    background-color: #c82333;
+}
+
 /* Input fields */
 QLineEdit {
-    padding: 6px;
+    padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccd6dd;
+    background-color: white;
+    font-size: 13px;
+}
+
+QLineEdit:focus {
+    border: 2px solid #1f3c88;
 }
 
 /* Risk colors */
@@ -47,22 +92,33 @@ QLabel[risk="high"] {
     color: red;
     font-weight: bold;
 }
-#pageTitle {
-    font-size: 26px;
-    font-weight: bold;
-    margin: 15px;
+
+/* Dashboard Cards */
+#dashboardCard {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
 }
 
+#cardTitle {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1f3c88;
+    margin-bottom: 10px;
+}
+
+#cardDesc {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+/* Metric Cards */
 #metricCard {
     background-color: #1f2933;
     border-radius: 12px;
     padding: 20px;
     min-width: 180px;
-}
-
-#cardTitle {
-    font-size: 14px;
-    color: #9ca3af;
 }
 
 #cardValue {
@@ -74,6 +130,7 @@ QLabel[risk="high"] {
 #highlightText {
     font-size: 18px;
     margin: 20px;
+    font-weight: 600;
 }
 
 #insightBox {
@@ -82,4 +139,18 @@ QLabel[risk="high"] {
     padding: 15px;
     margin: 15px;
     font-size: 15px;
+    color: #e5e7eb;
+}
+
+#footerText {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 10px;
+}
+
+#userLabel {
+    font-size: 14px;
+    color: #1f3c88;
+    font-weight: 600;
+    margin-right: 10px;
 }

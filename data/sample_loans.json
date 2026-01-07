@@ -16,5 +16,11 @@
         "amount": "30987",
         "risk_score": 59,
         "risk_label": "Medium"
+    },
+    {
+        "borrower": "xyz",
+        "amount": "20000",
+        "risk_score": 38,
+        "risk_label": "Medium"
     }
 ]

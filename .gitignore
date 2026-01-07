@@ -6,3 +6,7 @@ venv/
 .DS_Store
 .idea/
 .vscode/
+config.py
+data/.session.json
+data/users.json
+

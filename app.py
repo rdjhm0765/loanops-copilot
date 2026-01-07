@@ -1,16 +1,50 @@
 import sys
 from PyQt5.QtWidgets import QApplication
+from modules.auth import LoginWindow
 from modules.dashboard import Dashboard
+from utils.session import SessionManager
+
+class App:
+    def __init__(self):
+        self.dashboard = None
+        self.login = None
+        self.session = SessionManager()
+    
+    def start(self):
+        if self.session.is_authenticated():
+            # Go directly to dashboard
+            self.show_dashboard()
+        else:
+            # Show login window
+            self.show_login()
+    
+    def show_login(self):
+        self.login = LoginWindow()
+        self.login.login_successful.connect(self.on_login_success)
+        self.login.show()
+    
+    def on_login_success(self, username):
+        print(f"Login successful for: {username}")  # Debug
+        self.show_dashboard()
+    
+    def show_dashboard(self):
+        self.dashboard = Dashboard()
+        self.dashboard.show()
+        
+        # Close login window if it exists
+        if self.login:
+            self.login.close()
 
 def main():
     app = QApplication(sys.argv)
 
-    # 🔥 LOAD QSS HERE
+    # Load styles
     with open("ui/styles.qss", "r") as f:
         app.setStyleSheet(f.read())
 
-    window = Dashboard()
-    window.show()
+    # Create and start app
+    main_app = App()
+    main_app.start()
 
     sys.exit(app.exec_())
 
