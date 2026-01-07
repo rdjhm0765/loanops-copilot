@@ -1,14 +1,20 @@
-import json
-import os
+# utils/datahandler.py
 
-DATA_FILE = "data/sample_loans.json"
+from utils.db import get_collection
+
+loans_col = get_collection("loans")
 
 def load_loans():
-    if not os.path.exists(DATA_FILE):
-        return []
-    with open(DATA_FILE, "r") as f:
-        return json.load(f)
+    return list(loans_col.find({}, {"_id": 0}))
 
-def save_loans(loans):
-    with open(DATA_FILE, "w") as f:
-        json.dump(loans, f, indent=4)
+def save_loan(loan):
+    loans_col.insert_one(loan)
+
+def update_loan(loan_id, updates):
+    loans_col.update_one(
+        {"loan_id": loan_id},
+        {"$set": updates}
+    )
+
+def delete_loan(loan_id):
+    loans_col.delete_one({"loan_id": loan_id})

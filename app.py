@@ -1,8 +1,13 @@
 import sys
+import os
+from dotenv import load_dotenv
 from PyQt5.QtWidgets import QApplication
 from modules.auth import LoginWindow
 from modules.dashboard import Dashboard
 from utils.session import SessionManager
+
+# Load environment variables
+load_dotenv()
 
 class App:
     def __init__(self):
@@ -24,7 +29,7 @@ class App:
         self.login.show()
     
     def on_login_success(self, username):
-        print(f"Login successful for: {username}")  # Debug
+        print(f"Login successful for: {username}")
         self.show_dashboard()
     
     def show_dashboard(self):

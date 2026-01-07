@@ -9,4 +9,14 @@ motor
 python-jose 
 passlib[bcrypt] 
 python-dotenv
+<<<<<<< HEAD
 pymongo
+=======
+google-cloud-vision
+Pillow
+pdfplumber
+pdf2image
+pytesseract
+scikit-learn
+joblib
+>>>>>>> c9ae230e188241b74611145e3981448b9a45abd5

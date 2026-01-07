@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, pyqtSignal
 from utils.security import hash_password, verify_password
 from utils.session import SessionManager
-from utils.db import UserDatabase
+from utils.user_db import UserDatabase
 
 class LoginWindow(QWidget):
     # Signal emitted when login succeeds
