@@ -2,33 +2,63 @@
     {
         "borrower": "maddy",
         "amount": "1000",
-        "risk_score": 24,
-        "risk_label": "Low"
+        "risk_score": 22,
+        "risk_label": "Low",
+        "ml_confidence": "69.00%",
+        "prediction_method": "ML Model (Random Forest)"
     },
     {
         "borrower": "harry",
         "amount": "10000",
-        "risk_score": 48,
-        "risk_label": "Medium"
+        "risk_score": 57,
+        "risk_label": "Medium",
+        "ml_confidence": "75.00%",
+        "prediction_method": "ML Model (Random Forest)"
     },
     {
         "borrower": "maddy",
         "amount": "30987",
-        "risk_score": 59,
-        "risk_label": "Medium"
+        "risk_score": 65,
+        "risk_label": "Medium",
+        "ml_confidence": "98.00%",
+        "prediction_method": "ML Model (Random Forest)"
     },
     {
         "borrower": "xyz",
         "amount": "20000",
-        "risk_score": 38,
-        "risk_label": "Medium"
+        "risk_score": 65,
+        "risk_label": "Medium",
+        "ml_confidence": "98.00%",
+        "prediction_method": "ML Model (Random Forest)"
     },
     {
         "borrower": "XYZ",
         "amount": "500000",
         "pan": "ABCDE1234F",
         "annual_income": "1200000",
-        "risk_score": 56,
-        "risk_label": "Medium"
+        "risk_score": 66,
+        "risk_label": "Medium",
+        "ml_confidence": "100.00%",
+        "prediction_method": "ML Model (Random Forest)"
+    },
+    {
+        "borrower": "XYZ",
+        "amount": "500000",
+        "pan": "ABCDE1234F",
+        "annual_income": "1200000",
+        "risk_score": 66,
+        "risk_label": "Medium",
+        "ml_confidence": "100.00%",
+        "prediction_method": "ML Model (Random Forest)"
+    },
+    {
+        "borrower": "RAJESH KUMAR SHARMA",
+        "amount": "4500000",
+        "pan": "ABCPR1234D",
+        "annual_income": "1800000",
+        "risk_score": 66,
+        "risk_label": "Medium",
+        "ml_confidence": "100.00%",
+        "prediction_method": "ML Model (Random Forest)"
     }
 ]

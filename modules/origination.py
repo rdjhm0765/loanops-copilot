@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 from utils.data_handler import load_loans, save_loans
-from utils.ai_model import risk_score, risk_label
+from utils.ml_risk_model import LoanRiskMLModel
 from utils.ocr_parser import DocumentParser
 
 class Origination(QWidget):
@@ -14,6 +14,7 @@ class Origination(QWidget):
         self.setMinimumWidth(600)
         
         self.parser = DocumentParser()
+        self.ml_model = LoanRiskMLModel()
         self.extracted_data = {}
         
         self.init_ui()
@@ -69,7 +70,7 @@ class Origination(QWidget):
         layout.addWidget(self.income)
 
         # Submit button
-        btn = QPushButton("Submit Loan for Risk Assessment")
+        btn = QPushButton("Submit Loan for AI Risk Assessment")
         btn.clicked.connect(self.submit)
         layout.addWidget(btn)
 
@@ -139,7 +140,7 @@ class Origination(QWidget):
             QMessageBox.critical(self, "Error", f"Parsing failed: {str(e)}")
 
     def submit(self):
-        """Submit loan application"""
+        """Submit loan application with ML risk assessment"""
         borrower_name = self.name.text().strip()
         loan_amount = self.amount.text().strip()
         
@@ -148,29 +149,44 @@ class Origination(QWidget):
             return
         
         try:
-            # Calculate risk
-            score = risk_score(loan_amount)
-            label = risk_label(score)
-
-            # Save loan
-            loans = load_loans()
-            loans.append({
+            # Prepare loan data
+            loan_data = {
                 "borrower": borrower_name,
                 "amount": loan_amount,
                 "pan": self.pan.text(),
-                "annual_income": self.income.text(),
-                "risk_score": score,
-                "risk_label": label
-            })
+                "annual_income": self.income.text()
+            }
+            
+            # Get ML prediction
+            risk_score, risk_label, confidence = self.ml_model.predict(loan_data)
+            
+            # Add prediction info
+            loan_data['risk_score'] = risk_score
+            loan_data['risk_label'] = risk_label
+            loan_data['ml_confidence'] = f"{confidence:.2%}"
+            
+            if self.ml_model.is_trained:
+                loan_data['prediction_method'] = 'ML Model (Random Forest)'
+                method_text = "using trained ML model"
+            else:
+                loan_data['prediction_method'] = 'Rule-based (fallback)'
+                method_text = "using rule-based system (train ML model for better accuracy)"
+
+            # Save loan
+            loans = load_loans()
+            loans.append(loan_data)
             save_loans(loans)
 
+            # Show result
             QMessageBox.information(
                 self,
                 "AI Risk Assessment Complete",
                 f"Borrower: {borrower_name}\n"
                 f"Amount: ₹{loan_amount}\n"
-                f"Risk Level: {label}\n"
-                f"Risk Score: {score}"
+                f"Risk Level: {risk_label}\n"
+                f"Risk Score: {risk_score}/100\n"
+                f"Confidence: {confidence:.1%}\n\n"
+                f"Assessment done {method_text}"
             )
             
             # Clear form

@@ -13,3 +13,6 @@ google-cloud-vision
 Pillow
 pdfplumber
 pdf2image
+pytesseract
+scikit-learn
+joblib
