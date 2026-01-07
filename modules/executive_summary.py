@@ -1,85 +1,48 @@
-from PyQt5.QtWidgets import (
-    QWidget, QLabel, QVBoxLayout, QHBoxLayout, QFrame
-)
-from PyQt5.QtCore import Qt
-import json
-import os
+# modules/executive_summary.py
 
-DATA_FILE = "sample_loans.json"
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
+from utils.data_handler import load_loans
+
 
 class ExecutiveSummary(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Executive Summary")
-        self.setMinimumSize(900, 600)
-        self.init_ui()
 
-    def load_loans(self):
-        if not os.path.exists(DATA_FILE):
-            return []
+        layout = QVBoxLayout(self)
 
-        with open(DATA_FILE, "r") as f:
-            return json.load(f)
+        title = QLabel("Executive Risk Summary")
+        title.setObjectName("title")
+        layout.addWidget(title)
 
-    def init_ui(self):
-        loans = self.load_loans()
+        self.summary_label = QLabel()
+        layout.addWidget(self.summary_label)
+
+        self.refresh_summary()
+
+    def refresh_summary(self):
+        loans = load_loans()
 
         total_loans = len(loans)
-        high_risk = sum(1 for l in loans if l.get("risk_label") == "High")
-        avg_risk = round(
-            sum(l.get("risk_score", 0) for l in loans) / total_loans, 2
-        ) if total_loans else 0
+        total_amount = sum(l["amount"] for l in loans) if loans else 0
 
-        predicted_defaults = sum(
-            1 for l in loans if l.get("risk_score", 0) > 70
+        high_risk_loans = [l for l in loans if l["risk_label"] == "High"]
+        medium_risk_loans = [l for l in loans if l["risk_label"] == "Medium"]
+
+        high_risk_amount = sum(l["amount"] for l in high_risk_loans)
+        medium_risk_amount = sum(l["amount"] for l in medium_risk_loans)
+
+        if high_risk_amount > 0:
+            recommendation = "Immediate monitoring required for high-risk loans."
+        else:
+            recommendation = "Portfolio risk is currently stable."
+
+        self.summary_label.setText(
+            f"Total Loans: {total_loans}\n"
+            f"Total Portfolio Value: ₹{total_amount}\n\n"
+            f"High Risk Loans: {len(high_risk_loans)}\n"
+            f"Medium Risk Loans: {len(medium_risk_loans)}\n\n"
+            f"₹ At Risk (High): ₹{high_risk_amount}\n"
+            f"₹ Under Watch (Medium): ₹{medium_risk_amount}\n\n"
+            f"Recommendation:\n{recommendation}"
         )
-
-        total_amount = sum(l.get("amount", 0) for l in loans)
-
-        main = QVBoxLayout(self)
-
-        title = QLabel("LoanOps Copilot – Executive Summary")
-        title.setAlignment(Qt.AlignCenter)
-        title.setObjectName("pageTitle")
-        main.addWidget(title)
-
-        cards = QHBoxLayout()
-        cards.addWidget(self.metric_card("Total Loans", total_loans))
-        cards.addWidget(self.metric_card("High Risk Loans", high_risk))
-        cards.addWidget(self.metric_card("Avg Risk Score", avg_risk))
-        cards.addWidget(self.metric_card("Predicted Defaults (30d)", predicted_defaults))
-        main.addLayout(cards)
-
-        exposure = QLabel(
-            f"💰 Total Portfolio Exposure: ₹{total_amount:,.0f}"
-        )
-        exposure.setObjectName("highlightText")
-        main.addWidget(exposure)
-
-        insight = QLabel(
-            "🧠 Insight:\n"
-            f"{high_risk} loans show elevated risk. "
-            "Early intervention can significantly reduce potential defaults."
-        )
-        insight.setWordWrap(True)
-        insight.setObjectName("insightBox")
-        main.addWidget(insight)
-
-    def metric_card(self, title, value):
-        card = QFrame()
-        card.setObjectName("metricCard")
-
-        layout = QVBoxLayout(card)
-
-        t = QLabel(title)
-        t.setAlignment(Qt.AlignCenter)
-        t.setObjectName("cardTitle")
-
-        v = QLabel(str(value))
-        v.setAlignment(Qt.AlignCenter)
-        v.setObjectName("cardValue")
-
-        layout.addWidget(t)
-        layout.addWidget(v)
-
-        return card
